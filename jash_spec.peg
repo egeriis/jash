@@ -1,0 +1,19 @@
+grammar Jash
+
+    program         <- cell* <Program>
+
+    cell            <- (whitespace / newline)* datum (whitespace / newline)* <Cell>
+
+    datum           <- function_def / function_call
+
+    function_def    <- "" name:token args:(whitespace name:token)* " {" line:(newline whitespace* fn:function_call)* newline? "}" <FunctionDef>
+
+    function_call   <- "" name:token args:(whitespace arg:argument)* <FunctionCall>
+
+    argument        <- "(" function_call ")" / token
+
+    token           <- [^\s{}]+ <Token>
+
+    whitespace      <- [\t ]
+
+    newline         <- [\n\r]
