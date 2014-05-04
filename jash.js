@@ -3,6 +3,8 @@ var fs = require('fs'),
     Scope = require('./scope'),
     inputFile = process.argv[2],
     input = fs.readFileSync(inputFile, 'utf-8'),
-    tree = parser.parse(input);
+    program = parser.parse(input);
 
-tree.eval(new Scope.TopLevel);
+program.eval(new Scope.TopLevel, process.stdin, process.stdout, function(){
+
+});

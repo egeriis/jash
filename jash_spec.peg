@@ -4,17 +4,19 @@ grammar Jash
 
     cell            <- (whitespace / newline)* datum (whitespace / newline)* <Cell>
 
-    datum           <- function_def / function_call
+    datum           <- comment / function_def / function_call
 
-    function_def    <- "" name:token args:(whitespace name:token)* " {" line:(newline whitespace* fn:function_call)* newline? "}" <FunctionDef>
+    function_def    <- name:token args:(whitespace name:token)* " {" line:(newline whitespace* fn:function_call)* newline? "}" <FunctionDef>
 
-    function_call   <- "" name:token args:(whitespace arg:argument)* <FunctionCall>
+    function_call   <- name:token args:(whitespace arg:argument)* (" " comment)? <FunctionCall>
+
+    comment         <- "#" [^\n\r]* <Comment>
 
     argument        <- "(" function_call ")" / token
 
-    token           <- string / [^\s{}]+ <Token>
+    token           <- string / [^\s{}()]+ <Token>
 
-    string          <- "\"" [^"]* "\""
+    string          <- "\"" (!"\\") .* "\""
 
     whitespace      <- [\t ]
 

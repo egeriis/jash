@@ -1,5 +1,8 @@
-* 3 2
-some a b {
-    + "a" "b \" some"
+ls
+# hello
++ 1 2 # no way
+some {
+    + 2 3 # yes way
 }
-some 3 2
+
+some

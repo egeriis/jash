@@ -1,10 +1,18 @@
+var stream = require('readable-stream');
+
 function Program(program) {
     this.program = program;
 }
 
 Program.prototype.invoke = function(args, scope) {
-    var no = /^[0-9]+$/,
-        str = /^["'].*["']$/;
+    var no = /^[0-9]+\s*$/,
+        str = /^["'].*["']$/,
+        input = new stream.PassThrough,
+        output = new stream.PassThrough,
+        streams = {
+            input: input,
+            output: output
+        };
 
     args = args.map(function(arg){
         try {
@@ -16,7 +24,8 @@ Program.prototype.invoke = function(args, scope) {
         }
     });
 
-    return this.program.apply(null, args);
+    this.program.apply(streams, args);
+    return streams;
 }
 
 module.exports = Program;

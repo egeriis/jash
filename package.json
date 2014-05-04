@@ -1,0 +1,8 @@
+{
+    "name": "jash",
+    "version": "0.0.0",
+    "dependencies": {
+        "canopy": "*",
+        "readable-stream": "~1.1.0"
+    }
+}
