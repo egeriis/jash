@@ -1,4 +1,5 @@
 function Static(value) {
+    console.log(typeof value);
     this.value = value;
 }
 

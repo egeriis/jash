@@ -1,6 +1,7 @@
 var parser = require('./jash_spec').Parser,
     childProcess = require('child_process'),
     Stream = require('stream'),
+    Scope = require('./scope'),
     util = require('util');
 
 parser.Program = {
@@ -50,7 +51,7 @@ parser.FunctionCall = {
         return function(cb) {
             var returnValue = scope.lookup(
                 this.name.textValue
-            ).invoke(args);
+            ).invoke(args, scope);
             cb(returnValue);
         }.bind(this);
     },
@@ -83,6 +84,14 @@ parser.FunctionDef = {
                 var undef = args.slice(arguments.length);
                 throw new Error("Undefined argument(s): " + undef.join(', ') + " for program: " + program);
             }
+
+            var defined = {};
+            args.forEach(function(name, idx){
+                defined[name] = this[idx];
+            }, arguments);
+
+            scope = new Scope(scope);
+            scope.set(defined);
 
             var resp = [];
             lines.forEach(function(line){

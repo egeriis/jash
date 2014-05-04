@@ -8,6 +8,12 @@ function Scope(parent) {
 }
 
 Scope.prototype.set = function(name, value) {
+    if (typeof name == 'object') {
+        for (var n in name) {
+            this.set(n, name[n]);
+        }
+        return;
+    }
     if (typeof value == 'function') {
         value = new Program(value, this);
     } else {

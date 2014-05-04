@@ -1,5 +1,5 @@
 * 3 2
-some {
-    + 2 1
+some a b {
+    + "a" "b \" some"
 }
-some
+some 3 2
