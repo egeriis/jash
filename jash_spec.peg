@@ -12,7 +12,9 @@ grammar Jash
 
     argument        <- "(" function_call ")" / token
 
-    token           <- [^\s{}]+ <Token>
+    token           <- string / [^\s{}]+ <Token>
+
+    string          <- "\"" [^"]* "\""
 
     whitespace      <- [\t ]
 
